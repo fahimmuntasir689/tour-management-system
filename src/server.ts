@@ -1,10 +1,10 @@
 import mongoose from "mongoose"
-// import { Server } from "http";
+import { Server } from "http";
 import { app } from "./app"
-// import { error } from "console"
-// import { promise } from "zod";
+import { error } from "console"
+import { promise } from "zod";
 
-// let appServer : Server;
+let appServer : Server;
 
 let something;
 
