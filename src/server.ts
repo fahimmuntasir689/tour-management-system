@@ -3,6 +3,7 @@ import { Server } from "http";
 import { app } from "./app"
 import { error } from "console"
 import { promise } from "zod";
+import { envVars } from "../env";
 
 let appServer : Server;
 
@@ -10,6 +11,7 @@ let something;
 
 const initServer = async () => {
     try {
+        console.log(envVars.DB_URL)
         await mongoose.connect('mongodb+srv://mongodb:mongodb@cluster0.qxnsr.mongodb.net/tour-management-system?retryWrites=true&w=majority&appName=Cluster0')
 
         console.log('connected to mongodb..');
