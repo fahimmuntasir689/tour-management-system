@@ -11,8 +11,8 @@ let something;
 
 const initServer = async () => {
     try {
-        console.log(envVars.DB_URL)
-        await mongoose.connect('mongodb+srv://mongodb:mongodb@cluster0.qxnsr.mongodb.net/tour-management-system?retryWrites=true&w=majority&appName=Cluster0')
+        
+        await mongoose.connect(envVars.DB_URL)
 
         console.log('connected to mongodb..');
         app.listen(5000, () => {
