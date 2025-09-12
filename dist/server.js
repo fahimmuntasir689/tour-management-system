@@ -13,12 +13,59 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+// import { Server } from "http";
+const app_1 = require("./app");
+const env_1 = require("../env");
+const seedSuperAdmin_1 = require("./app/utilities/seedSuperAdmin");
+// let appServer : Server;
+// let something;
 const initServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect('mongodb+srv://mongodb:mongodb@cluster0.qxnsr.mongodb.net/tour-management-system?retryWrites=true&w=majority&appName=Cluster0');
+        yield mongoose_1.default.connect(env_1.envVars.DB_URL);
+        console.log('connected to mongodb..');
+        app_1.app.listen(5000, () => {
+            console.log('connected to server');
+        });
     }
     catch (error) {
         console.error(error);
     }
 });
-initServer();
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield initServer();
+    yield (0, seedSuperAdmin_1.seedSuperAdmin)();
+}))();
+/*
+
+// error handling
+// unhandle error rejection
+
+process.on('unhandledRejection', (error) => {
+    console.log("unhandled Error Detected", error)
+    if (appServer) {
+        appServer.close(() => {
+            process.exit(1)
+        })
+
+    }
+    process.exit(1)
+})
+
+Promise.reject(new Error('I forgot to catch the error'))
+
+
+// uncaught Exception
+process.on('uncaughtException', (error) => {
+    console.log("uncaught Error Detected", error)
+    if (appServer) {
+        appServer.close(() => {
+            process.exit(1)
+        })
+
+    }
+    process.exit(1)
+})
+
+throw new Error('Error which is uncaught')
+
+*/ 

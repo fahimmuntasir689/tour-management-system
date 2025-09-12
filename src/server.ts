@@ -1,17 +1,17 @@
 import mongoose from "mongoose"
-import { Server } from "http";
+// import { Server } from "http";
 import { app } from "./app"
-import { error } from "console"
-import { promise } from "zod";
 import { envVars } from "../env";
+import { seedSuperAdmin } from "./app/utilities/seedSuperAdmin";
 
-let appServer : Server;
 
-let something;
+// let appServer : Server;
+
+// let something;
 
 const initServer = async () => {
     try {
-        
+
         await mongoose.connect(envVars.DB_URL)
 
         console.log('connected to mongodb..');
@@ -28,7 +28,10 @@ const initServer = async () => {
 
 }
 
-initServer()
+(async () => {
+    await initServer()
+    await seedSuperAdmin()
+})()
 
 /*
 
