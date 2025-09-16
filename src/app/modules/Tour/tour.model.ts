@@ -26,11 +26,11 @@ const tourSchema = new Schema<ITour>({
         required: true,
         unique: true
     },
-    images: {
-        type: [String],
-        default: []
+    // images: {
+    //     type: [String],
+    //     default: []
 
-    },
+    // },
     description: {
         type: String
     },

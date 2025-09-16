@@ -5,7 +5,7 @@ import { createTourZodSchema } from "./tour.validation";
 
 const router = Router()
 
-router.post('/create', validateRequest(createTourZodSchema) , tourController.createTour)
+router.post('/create',  validateRequest(createTourZodSchema) , tourController.createTour)
 
 
 export const tourRoutes = router

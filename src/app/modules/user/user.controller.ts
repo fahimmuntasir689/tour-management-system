@@ -9,7 +9,7 @@ import { envVars } from "../../../../env";
 import { JwtPayload } from "jsonwebtoken";
 // import { AppError } from "../../ErrorHelper/AppError";
 
-const createUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const createUser = catchAsync(async (req: Request, res: Response) => {
     const user = await userServices.createUser(req.body)
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -20,7 +20,7 @@ const createUser = catchAsync(async (req: Request, res: Response, next: NextFunc
     })
 
 })
-const updateUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const updateUser = catchAsync(async (req: Request, res: Response) => {
     const userId = req.params.id;
 
     const token = req.headers.authorization;

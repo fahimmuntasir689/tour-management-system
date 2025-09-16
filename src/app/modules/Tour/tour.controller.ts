@@ -7,6 +7,7 @@ import httpCodes from "http-status-codes"
 const createTour = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
     try {
+        
         const tour = await tourServices.createTour(req.body)
 
         console.log(tour)
@@ -20,6 +21,8 @@ const createTour = catchAsync(async (req: Request, res: Response, next: NextFunc
 
 
     } catch (error) {
+        console.log('hello');
+        
         next(error)
 
     }
