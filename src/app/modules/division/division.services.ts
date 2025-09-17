@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { JwtPayload } from "jsonwebtoken"
 import AppError from "../../ErrorHelper/AppError"
 import { IDivision } from "./division.interface"
@@ -7,21 +8,32 @@ import { Role } from "../user/user.interface"
 
 const createDivison = async (payload: Partial<IDivision>) => {
 
-    const { name, slug, ...rest } = payload
-    const isExist = await Division.findOne({ slug: payload.slug })
 
-    if (isExist) {
-        throw new AppError(400, "slug already exist")
+
+    const { name, ...rest } = payload
+    const isDivisionExist = await Division.findOne({ name: payload.name })
+
+    if (isDivisionExist) {
+        throw new AppError(400, "division already exist")
     }
 
+    const baseSlug = payload.name?.toLowerCase().split(" ").join("-")
+
+    let slug = `${baseSlug}-division`
+
+    console.log(slug)
+
+    let count = 0;
+    while (await Division.exists({ slug })) {
+        slug = `${slug}-${count++}`
+
+    }
+
+    payload.slug = slug
 
 
-    const division = await Division.create({
-        name,
-        slug,
 
-        ...rest
-    })
+    const division = await Division.create(payload)
     return division;
 
 
@@ -36,7 +48,7 @@ const getAllDivision = async () => {
 
 }
 
-const updateDivision = async (userID : string , payload : Partial<IDivision> , token : JwtPayload ) => {
+const updateDivision = async (userID: string, payload: Partial<IDivision>, token: JwtPayload) => {
 
     const isDivisionExist = await Division.findById(userID)
 
@@ -58,16 +70,16 @@ const updateDivision = async (userID : string , payload : Partial<IDivision> , t
             throw new AppError(httpCodes.FORBIDDEN, 'you do not have authorization to change these things')
         }
     }
-  
+
 
     const newUpdatedDivision = await Division.findByIdAndUpdate(userID, payload, { new: true, runValidators: true })
 
     return newUpdatedDivision
 }
 
-const deleteDivision = async (userID : string) => {
+const deleteDivision = async (userID: string) => {
 
-    const division = await Division.deleteOne({_id : userID})
+    const division = await Division.deleteOne({ _id: userID })
 
     return division
 
@@ -76,5 +88,5 @@ const deleteDivision = async (userID : string) => {
 }
 
 export const divisionServices = {
-    createDivison, getAllDivision , updateDivision , deleteDivision
+    createDivison, getAllDivision, updateDivision, deleteDivision
 }

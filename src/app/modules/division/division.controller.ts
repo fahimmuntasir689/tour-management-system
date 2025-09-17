@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express"
+import { Request, Response } from "express"
 import { catchAsync } from "../../utilities/catchAsync"
 import { divisionServices } from "./division.services"
 import { sendResponse } from "../../utilities/sendResponse"
@@ -8,7 +8,7 @@ import { envVars } from "../../../../env"
 import { JwtPayload } from "jsonwebtoken"
 import AppError from "../../ErrorHelper/AppError"
 
-const createDivision = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const createDivision = catchAsync(async (req: Request, res: Response) => {
 
     const division = await divisionServices.createDivison(req.body)
 
@@ -22,7 +22,7 @@ const createDivision = catchAsync(async (req: Request, res: Response, next: Next
 }
 )
 
-const getAllDivision = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const getAllDivision = catchAsync(async (req: Request, res: Response) => {
     const divisions = await divisionServices.getAllDivision()
 
     sendResponse(res, {
@@ -35,7 +35,7 @@ const getAllDivision = catchAsync(async (req: Request, res: Response, next: Next
 
 }
 )
-const updateDivision = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const updateDivision = catchAsync(async (req: Request, res: Response) => {
     const division = await req.params.id
 
     const token = await req.headers.authorization
@@ -55,7 +55,7 @@ const updateDivision = catchAsync(async (req: Request, res: Response, next: Next
 
 }
 )
-const deleteDivision = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const deleteDivision = catchAsync(async (req: Request, res: Response) => {
 
     const division = req.params.id;
     const token = req.headers.authorization
