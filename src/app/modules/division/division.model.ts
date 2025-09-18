@@ -23,4 +23,54 @@ const divisionSchema = new Schema<IDivision>({
     versionKey: false
 })
 
+divisionSchema.pre("save", async function (next) {
+    if (this.isModified("name")) {
+
+
+        const baseSlug = this.name?.toLowerCase().split(" ").join("-")
+
+        let slug = `${baseSlug}-division`
+
+        console.log(slug)
+
+        let count = 0;
+        while (await Division.exists({ slug })) {
+            slug = `${slug}-${count++}`
+
+        }
+
+        this.slug = slug
+
+    }
+
+    next()
+})
+
+divisionSchema.pre("findOneAndUpdate" , async function(next){
+    const division = this.getUpdate() as Partial<IDivision>
+
+
+    if(division.name){
+
+        
+
+        const baseSlug = division.name?.toLowerCase().split(" ").join("-")
+
+        let slug = `${baseSlug}-division`
+
+
+        let count = 0;
+        while (await Division.exists({ slug })) {
+            slug = `${slug}-${count++}`
+
+        }
+
+        division.slug = slug
+
+    }
+
+    this.setUpdate(division)
+    next()
+})
+
 export const Division = mongoose.model<IDivision>('Division', divisionSchema)

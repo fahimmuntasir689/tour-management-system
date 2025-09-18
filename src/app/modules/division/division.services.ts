@@ -17,19 +17,19 @@ const createDivison = async (payload: Partial<IDivision>) => {
         throw new AppError(400, "division already exist")
     }
 
-    const baseSlug = payload.name?.toLowerCase().split(" ").join("-")
+    // const baseSlug = payload.name?.toLowerCase().split(" ").join("-")
 
-    let slug = `${baseSlug}-division`
+    // let slug = `${baseSlug}-division`
 
-    console.log(slug)
+    // console.log(slug)
 
-    let count = 0;
-    while (await Division.exists({ slug })) {
-        slug = `${slug}-${count++}`
+    // let count = 0;
+    // while (await Division.exists({ slug })) {
+    //     slug = `${slug}-${count++}`
 
-    }
+    // }
 
-    payload.slug = slug
+    // payload.slug = slug
 
 
 
